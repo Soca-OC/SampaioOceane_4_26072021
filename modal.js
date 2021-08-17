@@ -12,9 +12,9 @@ const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
 const modalClose = document.querySelectorAll(".close");
-console.log (formData.length);
-const inputPrenom = document.getElementById("first");
-
+const inputName = document.getElementById("last");
+const inputRadio = document.getElementById("location1");
+const inputCondition = document.getElementById("checkbox1");
 
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
@@ -25,22 +25,36 @@ function launchModal() {
 }
 //close modal event
 modalClose.forEach((btn) => btn.addEventListener("click", closeModal));
+
 //close modal form
 function closeModal(){
   modalbg.style.display = "none";
 }
-// 
 
-// validation du formulaire
-function valider(){
-  //si prénom comporte plus de 2 carractère
-   if (inputPrenom.length >= 2){
-     return true;
-   }
-   // si non afficher message + ne pas valider l'envoie
-   else {
-     alert("Veuillez saisir votre prénom");
-     return false;
-   }
+//conditions 
+inputName.setAttribute("minlength","2");
+inputRadio.setAttribute("checked","checked");
+inputCondition.setAttribute("required","");
+
+//object Input
+function Input (nameInput, condition){
+  this.nameInput = nameInput;
+  this.condition = condition;
+};
+let inputs = [
+  new Input("prenom", ),
+  new Input("nom", inputName.length >= 2),
+  new Input("email", ),
+  new Input("dateofbirth",() => this.value ),
+  new Input("concours",() => this.value),
+  new Input("radio", () => this.value ),
+  new Input("condition", () => this.value),
+]
+function validate (){
+  return inputs.every(i => i.condition());
 }
+
+console.log(inputs);
+
+
 
