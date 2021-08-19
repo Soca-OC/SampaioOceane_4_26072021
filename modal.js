@@ -16,9 +16,6 @@ const inputName = document.getElementById("last");
 const inputRadio = document.getElementById("location1");
 const inputCondition = document.getElementById("checkbox1");
 
-//conditions 
-inputRadio.setAttribute("checked","checked");
-inputCondition.setAttribute("required","");
 
 let radioArray = [
   document.getElementById("location1").checked,
@@ -55,14 +52,14 @@ function Input(nameInput, htmlTag, condition, errorMessage){
   this.condition = condition;
   this.errorMessage = errorMessage;
   this.displayError = function(){
-    this.htmlTag.setAttribute("data-error", inputs.errorMessage)
+    this.htmlTag.setAttribute("data-error", this.errorMessage)
     this.htmlTag.setAttribute("data-error-visible","true");
   };
 };
 function validateInputs(arr){
   let bols = arr.reduce((a,input) => {
     if (input.condition()){
-      input.remove
+      //.remove();
       a.push(true);
       return a;
     } else {
@@ -79,14 +76,15 @@ let inputs = [
   new Input("prenom", document.getElementById("first").parentElement, () => document.getElementById("first").value.length >= 2 && document.getElementById("first").value!=="", "Veuillez écrire un prénom avec au minimum 2 carractères"),
   new Input("nom", inputName.parentElement, () => inputName.value.length >= 2 && inputName.value!=="" , "Veuillez écrire un nom avec au minimum 2 carractères"),
   new Input("email", document.getElementById("email").parentElement, () => document.getElementById("email").value.includes("@") && document.getElementById("email").value.includes(".") , "Veuillez donner une adresse mail valide"),
+  new Input("birthdate", document.getElementById("birthdate").parentElement, () => document.getElementById("birthdate").value!=="", "Veuillez entrer votre date de naissance"),
   new Input("concours", document.getElementById("quantity").parentElement, () => document.getElementById("quantity").value!=="", "Veuillez remplir ce champ" ),
-  new Input("radio", document.getElementById("location1").parentElement, () => radioArray.some(i => i)),
-  new Input("condition", inputCondition.parentElement, () => inputCondition.checked),
+  new Input("radio", document.getElementById("location1").parentElement, () => radioArray.some(i => i), "Veuillez choisir une ville"),
+  new Input("condition", document.getElementById("checkbox1").parentElement, () => inputCondition.checked,"Veuillez accepter les conditions d'utilisation"),
 ]
-console.log(radioArray);
+
 function validate(){
   if (validateInputs(inputs)){
-  //ici afficher la modale
+    alert('Votre reservation est bien enregistré');
   return true;
   } else {
     launchModal();
