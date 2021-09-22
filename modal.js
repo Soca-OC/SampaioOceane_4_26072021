@@ -9,13 +9,17 @@ function editNav() {
 
 // DOM Elements
 const modalbg = document.querySelector(".bground");
-const modalBody =  document.querySelectorAll(".modal-body")
+const modalBody =  document.getElementsByClassName("modal-body")
 const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
 const modalClose = document.querySelectorAll(".close");
 const inputName = document.getElementById("last");
 const inputRadio = document.getElementById("location1");
 const inputCondition = document.getElementById("checkbox1");
+
+// create div for congrats message
+let congratsDiv = document.createElement("div");
+document.modalBody.appendChild(congratsDiv);
 
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
@@ -70,18 +74,14 @@ let inputs = [
             document.getElementById("first").parentElement, 
             () => document.getElementById("first").value.length >= 2 && document.getElementById("first").value!=="",
             "Veuillez écrire un prénom avec au minimum 2 carractères"),
-  new Input("nom", inputName.parentElement, () => inputName.value.length >= 2 && inputName.value!=="" , "Veuillez écrire un nom avec au minimum 2 carractères"),
-  new Input("email", document.getElementById("email").parentElement, () => 
-            function validateEmail(email){
-             /* let Regex1 = /^([w-.]+)@((?:[w]+.)+)([a-zA-Z]{2,4})/i;
-              var valid = emailExpression.test(email);
-
-              if(!valid){
-                return false;
-              } else {}*/
-                return true;
-              
-            },
+  new Input("nom",
+            inputName.parentElement, 
+            () => inputName.value.length >= 2 && inputName.value!=="" , 
+            "Veuillez écrire un nom avec au minimum 2 carractères"),
+  new Input("email", 
+            document.getElementById("email").parentElement, 
+            () => {
+            return /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test = document.getElementById("email").value},
             "Veuillez donner une adresse mail valide"),
   new Input("birthdate", document.getElementById("birthdate").parentElement, () => document.getElementById("birthdate").value!=="", "Veuillez entrer votre date de naissance"),
   new Input("concours", document.getElementById("quantity").parentElement, () => document.getElementById("quantity").value!=="", "Veuillez remplir ce champ" ),
@@ -104,26 +104,27 @@ let inputs = [
   new Input("condition", document.getElementById("checkbox1").parentElement, () => inputCondition.checked,"Veuillez accepter les conditions d'utilisation"),
 ]
 
-document.querySelector("form").addEventListener("click", function(event){
-  event.preventDefault();
+document.querySelector("form").addEventListener("submit", function(event){
+ // event.preventDefault();
   validate();
 });
 
 function validate(){
-  if (validateInputs(inputs)){
-
-    
-    modalBody.style.display = "none";
-    function validateMessage(){
-      var newElementValidate = document.createElement("div");
-      var newTextValidate = document.createTextNode("Merci pour votre Reservation, celle ci à bien été pris en compte !")
-      newElementValidate.appendChild(newTextValidate);
-      document.body.insertBefore(newElementValidate,modalBody);
-    }
-  return true;
+  if (validateInputs(inputs)){  
+      modalBody.innerHTML = "Merci pour votre Reservation !";
+      return true;
   } else {
     launchModal();
     return false;
+  }
+}
+
+function toogleModal(){
+  if(modalBody.style.display != "none"){
+    modalBody.style.display = "none";
+    modalBodyCongrats.style.display = "block";
+  } else {
+    modalBodyCongrats.style.display = "none";
   }
 }
 
