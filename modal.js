@@ -66,6 +66,7 @@ function toogleModal(){
   if(modalBody.style.display != "none"){
     modalBody.style.display = "none";
     modalBodyCongrats.style.display = "block";
+    modalBodyCongrats.style.padding = "50px";
   } else {
     modalBody.style.display = "block";
     modalBodyCongrats.style.display = "none";
